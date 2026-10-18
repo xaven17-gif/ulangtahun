@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin Ucapan</title>
+<style>
+  :root{--bg:#07090d;--panel:#0e131b;--panel2:#121a25;--line:#1c2735;--text:#d6e2f0;--dim:#6c7f96;
+    --blue:#3b9bff;--blue2:#1d6fe0;--glow:#3b9bff55;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--mono);padding:20px 14px 40px}
+  .win{max-width:760px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#0a0f16;border-bottom:1px solid var(--line);font-size:13px}
+  .bar b{color:var(--blue)}
+  .body{padding:18px}
+  input{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:11px 12px;border-radius:8px;font:inherit;margin-top:8px}
+  input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--glow)}
+  button{background:linear-gradient(180deg,var(--blue),var(--blue2));color:#fff;border:0;border-radius:8px;padding:10px 16px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--dim)}
+  button.del{background:transparent;border:1px solid #5a2630;color:#ff7b8c;padding:5px 10px;font-size:11px}
+  .msg{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:10px;padding:14px;margin-top:12px}
+  .msg .top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
+  .msg b{color:var(--blue)}
+  .msg small{color:var(--dim)}
+  .msg p{margin:0;white-space:pre-wrap;word-break:break-word;font-size:14px;line-height:1.6}
+  .err{color:#ff7b8c;font-size:12px;margin-top:10px}
+  .dim{color:var(--dim);font-size:13px}
+  .hide{display:none}
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="bar"><span>📥 <b>Kotak Ucapan</b> <span id="count" class="dim"></span></span><button class="ghost hide" id="out">Keluar</button></div>
+  <div class="body">
+    <div id="login">
+      <p class="dim">Masuk dengan akun admin yang kamu buat di Firebase.</p>
+      <input id="email" type="email" placeholder="email admin" autocomplete="username">
+      <input id="pass" type="password" placeholder="password" autocomplete="current-password">
+      <div style="margin-top:12px"><button id="in">Masuk</button></div>
+      <div class="err" id="err"></div>
+    </div>
+    <div id="list" class="hide"></div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore, collection, query, orderBy, onSnapshot, deleteDoc, doc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {firebaseConfig} from "./firebase-config.js";
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app), auth = getAuth(app);
+let unsub = null;
+
+$("in").onclick = async () => {
+  $("err").textContent = "";
+  try{ await signInWithEmailAndPassword(auth, $("email").value.trim(), $("pass").value); }
+  catch(e){ $("err").textContent = "Gagal masuk: email/password salah atau belum dikonfigurasi."; }
+};
+$("pass").addEventListener("keydown", e => { if(e.key === "Enter") $("in").click(); });
+$("out").onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, user => {
+  if(user){
+    $("login").classList.add("hide"); $("list").classList.remove("hide"); $("out").classList.remove("hide");
+    const q = query(collection(db,"ucapan"), orderBy("createdAt","desc"));
+    unsub = onSnapshot(q, snap => {
+      $("count").textContent = `(${snap.size})`;
+      if(snap.empty){ $("list").innerHTML = '<p class="dim">Belum ada ucapan masuk.</p>'; return; }
+      $("list").innerHTML = snap.docs.map(d => {
+        const m = d.data();
+        const t = m.createdAt?.toDate ? m.createdAt.toDate().toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"}) : "baru saja";
+        return `<div class="msg"><div class="top"><span><b>${esc(m.from)}</b> <small>· ${t}</small></span>
+          <button class="del" data-id="${d.id}">hapus</button></div><p>${esc(m.text)}</p></div>`;
+      }).join("");
+    }, err => { $("list").innerHTML = '<p class="err">Tidak punya akses membaca. Cek aturan Firestore & email admin.</p>'; });
+  }else{
+    if(unsub){ unsub(); unsub = null; }
+    $("login").classList.remove("hide"); $("list").classList.add("hide"); $("out").classList.add("hide"); $("count").textContent = "";
+  }
+});
+
+$("list").addEventListener("click", async e => {
+  const id = e.target.dataset?.id;
+  if(id && confirm("Hapus ucapan ini?")) await deleteDoc(doc(db,"ucapan",id));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Happy Birthday Xaven</title>
+<style>
+  :root{
+    --bg:#07090d; --panel:#0e131b; --panel2:#121a25; --line:#1c2735;
+    --text:#d6e2f0; --dim:#6c7f96; --blue:#3b9bff; --blue2:#1d6fe0; --glow:#3b9bff55;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:
+    radial-gradient(900px 500px at 80% -10%,#0f2a52 0%,transparent 60%),
+    radial-gradient(700px 400px at -10% 110%,#0a1d3a 0%,transparent 60%),var(--bg);
+    color:var(--text);font-family:var(--mono);padding:20px 14px 40px}
+  .win{max-width:760px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;box-shadow:0 20px 60px #000a,0 0 0 1px #000}
+  .bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#0a0f16;border-bottom:1px solid var(--line)}
+  .dot{width:11px;height:11px;border-radius:50%;background:#26354a}
+  .dot:nth-child(1){background:#3b9bff}
+  .title{margin-left:10px;font-size:12px;color:var(--dim)}
+  .tabs{display:flex;background:#0a0f16;border-bottom:1px solid var(--line);font-size:12px;overflow-x:auto}
+  .tab{padding:9px 16px;color:var(--dim);border-right:1px solid var(--line);white-space:nowrap}
+  .tab.on{background:var(--panel);color:var(--text);box-shadow:inset 0 -2px var(--blue)}
+  .body{padding:22px 20px}
+  .code{font-size:13px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
+  .k{color:#6fb3ff}.s{color:#7ee0b0}.n{color:#ffb86b}.c{color:#4c5d73}.f{color:#c3a6ff}
+  h1{font-size:clamp(28px,7vw,44px);margin:22px 0 4px;letter-spacing:-.5px;line-height:1.15}
+  h1 em{font-style:normal;color:var(--blue);text-shadow:0 0 24px var(--glow)}
+  .sub{color:var(--dim);font-size:13px;margin:0 0 20px}
+  .count{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 4px}
+  .box{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 4px;text-align:center}
+  .box b{display:block;font-size:clamp(22px,6vw,34px);color:var(--blue);text-shadow:0 0 18px var(--glow)}
+  .box span{font-size:11px;color:var(--dim)}
+  .sec{margin-top:30px;padding-top:20px;border-top:1px dashed var(--line)}
+  .sec h2{font-size:14px;margin:0 0 12px;color:var(--text)}
+  .sec h2 i{color:var(--blue);font-style:normal}
+  label{display:block;font-size:12px;color:var(--dim);margin:12px 0 5px}
+  input.f1{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:11px 12px;border-radius:8px;font:inherit;font-size:14px}
+  input.f1:focus,.ed:focus-within{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--glow)}
+  .ed{display:flex;background:var(--panel2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .gut{padding:11px 8px;text-align:right;color:#3a4a60;font-size:13px;line-height:1.6;user-select:none;
+    background:#0b1017;border-right:1px solid var(--line);min-width:36px;overflow:hidden;height:170px}
+  textarea{flex:1;height:170px;background:transparent;border:0;color:var(--text);padding:11px 12px;
+    font:inherit;font-size:13px;line-height:1.6;resize:none;outline:none;white-space:pre-wrap;overflow-y:auto}
+  .hp{position:absolute;left:-9999px;opacity:0}
+  .row{display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+  button{background:linear-gradient(180deg,var(--blue),var(--blue2));color:#fff;border:0;border-radius:8px;
+    padding:11px 20px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px var(--glow)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  .cnt{font-size:12px;color:var(--dim)}
+  .status{display:flex;justify-content:space-between;gap:10px;padding:7px 14px;background:var(--blue2);
+    color:#fff;font-size:11px}
+  .status.err{background:#9b2c3c}.status.ok{background:#12805c}
+  @media(max-width:480px){.gut{min-width:30px}}
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <span class="title">birthday-xaven — Visual Studio Wish</span></div>
+  <div class="tabs"><div class="tab on">home.js</div><div class="tab">ucapan.md</div></div>
+
+  <div class="body">
+    <div class="code"><span class="c">// 🎂 countdown ulang tahun</span>
+<span class="k">const</span> <span class="f">ultah</span> = {
+  nama: <span class="s">"Xaven"</span>,
+  tanggal: <span class="s">"1 Januari 2027"</span>,
+  status: <span class="s" id="stat">"menghitung..."</span>
+};</div>
+
+    <h1 id="head">Menuju Ulang Tahun <em>Xaven</em></h1>
+    <p class="sub" id="sub">Sebentar lagi hari spesialnya, siapin ucapan terbaikmu.</p>
+
+    <div class="count">
+      <div class="box"><b id="d">00</b><span>hari</span></div>
+      <div class="box"><b id="h">00</b><span>jam</span></div>
+      <div class="box"><b id="m">00</b><span>menit</span></div>
+      <div class="box"><b id="s">00</b><span>detik</span></div>
+    </div>
+
+    <div class="sec">
+      <h2><i>&gt;</i> kirim_ucapan<span style="color:var(--dim)">()</span></h2>
+      <p class="sub" style="margin-bottom:0">Pesanmu masuk langsung ke Xaven, dan cuma dia yang bisa membacanya.</p>
+
+      <label for="from">const dari =</label>
+      <input class="f1" id="from" maxlength="40" placeholder='"nama kamu / nama samaran"' autocomplete="off">
+
+      <label for="text">const pesan =</label>
+      <div class="ed">
+        <div class="gut" id="gut">1</div>
+        <textarea id="text" maxlength="1000" placeholder="// tulis ucapan & doa terbaikmu di sini..."></textarea>
+      </div>
+      <input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="row">
+        <button id="send">▶ Kirim Ucapan</button>
+        <span class="cnt" id="cnt">0 / 1000</span>
+      </div>
+    </div>
+  </div>
+  <div class="status" id="status"><span id="msg">Siap</span><span>UTF-8 · Biru Mode</span></div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore, collection, addDoc, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {firebaseConfig, OWNER, TARGET_DATE} from "./firebase-config.js";
+
+const $ = id => document.getElementById(id);
+const target = new Date(TARGET_DATE).getTime();
+
+// ---------- countdown ----------
+const pad = n => String(n).padStart(2,"0");
+function tick(){
+  const diff = target - Date.now();
+  if(diff <= 0){
+    $("head").innerHTML = `Happy Birthday <em>${OWNER}</em>! 🎉`;
+    $("sub").textContent = "Hari yang ditunggu sudah tiba. Kirim ucapanmu sekarang!";
+    $("stat").textContent = '"HARI INI! 🎂"';
+    ["d","h","m","s"].forEach(i => $(i).textContent = "00");
+    return;
+  }
+  const s = Math.floor(diff/1000);
+  $("d").textContent = pad(Math.floor(s/86400));
+  $("h").textContent = pad(Math.floor(s%86400/3600));
+  $("m").textContent = pad(Math.floor(s%3600/60));
+  $("s").textContent = pad(s%60);
+  $("stat").textContent = '"segera tiba..."';
+}
+tick(); setInterval(tick, 1000);
+
+// ---------- editor line numbers ----------
+const ta = $("text"), gut = $("gut");
+function lines(){
+  const n = ta.value.split("\n").length;
+  gut.innerHTML = Array.from({length:n},(_,i)=>i+1).join("<br>");
+  $("cnt").textContent = `${ta.value.length} / 1000`;
+}
+ta.addEventListener("input", lines);
+ta.addEventListener("scroll", () => gut.scrollTop = ta.scrollTop);
+lines();
+
+// ---------- status bar ----------
+function setStatus(text, kind=""){
+  $("status").className = "status " + kind;
+  $("msg").textContent = text;
+}
+
+// ---------- firebase ----------
+const configured = !String(firebaseConfig.apiKey).startsWith("ISI");
+let db = null;
+if(configured){ db = getFirestore(initializeApp(firebaseConfig)); }
+else { setStatus("Firebase belum dikonfigurasi (isi firebase-config.js)", "err"); }
+
+const COOLDOWN = 30000;
+$("send").onclick = async () => {
+  if($("hp").value) return; // bot
+  const from = $("from").value.trim() || "Anonim";
+  const text = ta.value.trim();
+  if(!text){ setStatus("Pesannya masih kosong", "err"); return; }
+  if(!db){ setStatus("Firebase belum dikonfigurasi (isi firebase-config.js)", "err"); return; }
+
+  let last = 0; try{ last = +localStorage.getItem("last_send") || 0; }catch(e){}
+  if(Date.now() - last < COOLDOWN){ setStatus("Tunggu sebentar sebelum kirim lagi", "err"); return; }
+
+  $("send").disabled = true; setStatus("Mengirim...");
+  try{
+    await addDoc(collection(db,"ucapan"), {from, text, createdAt: serverTimestamp()});
+    try{ localStorage.setItem("last_send", String(Date.now())); }catch(e){}
+    ta.value = ""; lines();
+    setStatus(`Terkirim ✓ Terima kasih, ${from}!`, "ok");
+  }catch(err){
+    console.error(err);
+    setStatus("Gagal mengirim, coba lagi nanti", "err");
+  }finally{
+    $("send").disabled = false;
+  }
+};
+</script>
+</body>
+</html>
