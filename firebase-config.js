@@ -1,11 +1,9 @@
-// ====== ISI BAGIAN INI (dari Firebase Console > Project settings > Your apps > Web app) ======
 export const firebaseConfig = {
-  apiKey: "ISI_API_KEY",
-  authDomain: "ISI_PROJECT_ID.firebaseapp.com",
-  projectId: "ISI_PROJECT_ID",
-  appId: "ISI_APP_ID"
+  apiKey: "AIzaSyBprsVG7oORV68fRuDuXybQxIbdEPOj7jo",
+  authDomain: "ulangtahun-xaven.firebaseapp.com",
+  projectId: "ulangtahun-xaven",
+  appId: "1:1009823712622:web:f39c8d82c6170633abad7f"
 };
 
-// ====== Data ulang tahun ======
 export const OWNER = "Xaven";
-export const TARGET_DATE = "2027-01-01T00:00:00+07:00"; // 1 Januari 2027, WIB
+export const TARGET_DATE = "2027-01-01T00:00:00+07:00";
